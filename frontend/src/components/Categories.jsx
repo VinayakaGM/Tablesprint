@@ -137,12 +137,20 @@ const Category = () => {
     setIsModalVisible(false);
   };
 
+  // const handleEdit = (category) => {
+  //   setEditingCategory(category);
+  //   setNewCategory({ ...category});
+  //   setIsModalVisible(true);
+  // };
+
   const handleEdit = (category) => {
     setEditingCategory(category);
-    setNewCategory({ ...category});
+    setNewCategory({ 
+      ...category, 
+      image: null // Reset image to null when editing
+    });
     setIsModalVisible(true);
   };
-
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
