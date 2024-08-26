@@ -44,7 +44,7 @@ const SubCategory = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [newSubcategory, setNewSubcategory] = useState({ subCategoryName: '', image: null, sequence: '', status: 'active' });
+  const [newSubcategory, setNewSubcategory] = useState({ subCategoryName: '',categoryName: '', image: null, sequence: '', status: 'active' });
   const [editingSubcategory, setEditingSubcategory] = useState(null);
 
   useEffect(() => {
@@ -102,6 +102,7 @@ const SubCategory = () => {
     try {
       const formData = new FormData();
       formData.append('subCategoryName', newSubcategory.subCategoryName);
+      formData.append('categoryName', newSubcategory.categoryName);
       formData.append('image', newSubcategory.image);
       formData.append('sequence', newSubcategory.sequence);
       formData.append('status', newSubcategory.status);
@@ -343,6 +344,18 @@ const SubCategory = () => {
                 value={newSubcategory.subCategoryName}
                 onChange={(e) => setNewSubcategory({ ...newSubcategory, subCategoryName: e.target.value })}
               />
+              <Select
+              placeholder="Select Category"
+              value={newSubcategory.categoryName}
+              onChange={(e) => setNewSubcategory({ ...newSubcategory, categoryName: e.target.value })}
+            >
+              {categories.map(category => (
+                <option key={category._id} value={category.categoryName}>
+                  {category.categoryName}
+                </option>
+              ))}
+            </Select>
+            
               <Input
                 type="file"
                 accept="image/*"
