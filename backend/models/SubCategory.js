@@ -7,15 +7,16 @@ const subCategorySchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  categoryName: { type: String, required: true },
+  // categoryName: { type: String, required: true },
   category: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true
   },
   status: {
     type: String,
-    ref: 'Category',
+    enum: ['active', 'inactive'],
+    default: 'active',
     required: true
   },
   image:{
@@ -24,7 +25,6 @@ const subCategorySchema = new mongoose.Schema({
   },
   sequence: {
     type: String,
-    ref: 'Category',
     required: true
   }
 }, {

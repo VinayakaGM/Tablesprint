@@ -21,7 +21,7 @@ router.get("/", auth, getSubCategories);
 router.get("/:id", auth, getSubCategory);
 
 // Update a subcategory
-router.patch("/:id", auth, upload.single("image"), updateSubCategory);
+router.put("/:id", auth, upload.single("image"), updateSubCategory);
 
 // Delete a subcategory
 router.delete("/:id", auth, deleteSubCategory);

@@ -3,8 +3,8 @@ import SubCategory from "../models/SubCategory.js";
 export const createSubCategory = async (req, res) => {
   try {
     const subcategory = new SubCategory({
-      category: req.body.category,
       subCategoryName: req.body.subCategoryName,
+      category: req.body.category,
       status: req.body.status,
       image: req.file.path,
       sequence: req.body.sequence,

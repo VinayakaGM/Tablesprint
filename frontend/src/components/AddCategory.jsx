@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   Box,
   Flex,
@@ -213,8 +213,8 @@ const AddCategory = () => {
                   value={category.status}
                   onChange={handleInputChange}
                 >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
                 </Select>
               </FormControl>
 

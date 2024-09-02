@@ -29,8 +29,16 @@ import {
 } from "@chakra-ui/react";
 import { AuthContext } from "../Context/Context";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { FaHome, FaList, FaLayerGroup, FaBox, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
-import axios from 'axios';
+import {
+  FaHome,
+  FaList,
+  FaLayerGroup,
+  FaBox,
+  FaPlus,
+  FaEdit,
+  FaTrash,
+} from "react-icons/fa";
+import axios from "axios";
 
 const SubCategory = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,11 +48,17 @@ const SubCategory = () => {
 
   const [subcategories, setSubcategories] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [newSubcategory, setNewSubcategory] = useState({ subCategoryName: '',categoryName: '', image: null, sequence: '', status: 'active' });
+  const [newSubcategory, setNewSubcategory] = useState({
+    subCategoryName: "",
+    category: "",
+    image: null,
+    sequence: "",
+    status: "active",
+  });
   const [editingSubcategory, setEditingSubcategory] = useState(null);
 
   useEffect(() => {
@@ -56,15 +70,15 @@ const SubCategory = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get('/api/v1/category', {
+      const response = await axios.get("/api/v1/subcategory", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       setSubcategories(response.data);
     } catch (error) {
-      console.error('Error fetching subcategories:', error);
-      setError('Failed to fetch subcategories. Please try again.');
+      console.error("Error fetching subcategories:", error);
+      setError("Failed to fetch subcategories. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -72,14 +86,14 @@ const SubCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/v1/category', {
+      const response = await axios.get("/api/v1/category", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       setCategories(response.data);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     }
   };
 
@@ -94,26 +108,36 @@ const SubCategory = () => {
 
   const handleAddSubcategory = () => {
     setEditingSubcategory(null);
-    setNewSubcategory({ subCategoryName: '', image: null, sequence: '', status: 'active' });
+    setNewSubcategory({
+      subCategoryName: "",
+      categoryName: "",
+      image: null,
+      sequence: "",
+      status: "active",
+    });
     setIsModalVisible(true);
   };
 
   const handleModalOk = async () => {
     try {
       const formData = new FormData();
-      formData.append('subCategoryName', newSubcategory.subCategoryName);
-      formData.append('categoryName', newSubcategory.categoryName);
-      formData.append('image', newSubcategory.image);
-      formData.append('sequence', newSubcategory.sequence);
-      formData.append('status', newSubcategory.status);
+      formData.append("subCategoryName", newSubcategory.subCategoryName);
+      formData.append("category", newSubcategory.category);
+      formData.append("image", newSubcategory.image);
+      formData.append("sequence", newSubcategory.sequence);
+      formData.append("status", newSubcategory.status);
 
       if (editingSubcategory) {
-        await axios.put(`/api/v1/category/${editingSubcategory._id}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+        await axios.put(
+          `/api/v1/subcategory/${editingSubcategory._id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           }
-        });
+        );
         toast({
           title: "Subcategory updated",
           status: "success",
@@ -121,11 +145,11 @@ const SubCategory = () => {
           isClosable: true,
         });
       } else {
-        await axios.post('/api/v1/category', formData, {
+        await axios.post("/api/v1/subcategory", formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         toast({
           title: "Subcategory added",
@@ -137,7 +161,7 @@ const SubCategory = () => {
       setIsModalVisible(false);
       fetchSubcategories();
     } catch (error) {
-      console.error('Error saving subcategory:', error);
+      console.error("Error saving subcategory:", error);
       toast({
         title: "Error",
         description: "Failed to save subcategory",
@@ -161,10 +185,10 @@ const SubCategory = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this subcategory?")) {
       try {
-        await axios.delete(`/api/v1/category/${id}`, {
+        await axios.delete(`/api/v1/subcategory/${id}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         fetchSubcategories();
         toast({
@@ -174,7 +198,7 @@ const SubCategory = () => {
           isClosable: true,
         });
       } catch (error) {
-        console.error('Error deleting subcategory:', error);
+        console.error("Error deleting subcategory:", error);
         toast({
           title: "Error",
           description: "Failed to delete subcategory",
@@ -197,12 +221,7 @@ const SubCategory = () => {
         bg="#662671"
       >
         <Flex align="center" mr={5}>
-          <img
-            height="50px"
-            width="155rem"
-            src="/Group.png"
-            alt=""
-          />
+          <img height="50px" width="155rem" src="/Group.png" alt="" />
         </Flex>
         <Spacer />
         <Box>
@@ -218,25 +237,41 @@ const SubCategory = () => {
       <Flex>
         <Box width="250px" bg="gray.100" minHeight="calc(100vh - 80px)" p={4}>
           <VStack spacing={4} align="stretch">
-            <Link as={RouterLink} to="/dashboard" _hover={{ textDecoration: "none" }}>
+            <Link
+              as={RouterLink}
+              to="/dashboard"
+              _hover={{ textDecoration: "none" }}
+            >
               <HStack>
                 <FaHome />
                 <Text>Dashboard</Text>
               </HStack>
             </Link>
-            <Link as={RouterLink} to="/categories" _hover={{ textDecoration: "none" }}>
+            <Link
+              as={RouterLink}
+              to="/categories"
+              _hover={{ textDecoration: "none" }}
+            >
               <HStack>
                 <FaList />
                 <Text>Category</Text>
               </HStack>
             </Link>
-            <Link as={RouterLink} to="/subcategory" _hover={{ textDecoration: "none" }}>
+            <Link
+              as={RouterLink}
+              to="/subcategory"
+              _hover={{ textDecoration: "none" }}
+            >
               <HStack>
                 <FaLayerGroup />
                 <Text>Subcategory</Text>
               </HStack>
             </Link>
-            <Link as={RouterLink} to="/products" _hover={{ textDecoration: "none" }}>
+            <Link
+              as={RouterLink}
+              to="/products"
+              _hover={{ textDecoration: "none" }}
+            >
               <HStack>
                 <FaBox />
                 <Text>Products</Text>
@@ -247,8 +282,10 @@ const SubCategory = () => {
 
         <Box flex={1} p={5}>
           <Flex mb={4} alignItems="center">
-            <FaLayerGroup size="24px" style={{marginRight: '10px'}} />
-            <Text fontSize="2xl" fontWeight="bold" mr={4}>Subcategory</Text>
+            <FaLayerGroup size="24px" style={{ marginRight: "10px" }} />
+            <Text fontSize="2xl" fontWeight="bold" mr={4}>
+              Subcategory
+            </Text>
             <Input
               placeholder="Search subcategories"
               onChange={(e) => handleSearch(e.target.value)}
@@ -276,21 +313,46 @@ const SubCategory = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {subcategories.filter(subcategory => 
-                  subcategory.categoryName.toLowerCase().includes(searchText.toLowerCase())
-                ).map((subcategory) => (
-                  <Tr key={subcategory._id}>
-                    <Td>{subcategory._id}</Td>
-                    <Td>{subcategory.categoryName}</Td>
-                    <Td><Image src={subcategory.image} alt={subcategory.categoryName} boxSize="50px" objectFit="cover" /></Td>
-                    <Td>{subcategory.sequence}</Td>
-                    <Td>{subcategory.status}</Td>
-                    <Td>
-                      <Button size="sm" mr={2} leftIcon={<FaEdit />} onClick={() => handleEdit(subcategory)}>Edit</Button>
-                      <Button size="sm" colorScheme="red" leftIcon={<FaTrash />} onClick={() => handleDelete(subcategory._id)}>Delete</Button>
-                    </Td>
-                  </Tr>
-                ))}
+                {subcategories
+                  .filter((subcategory) =>
+                    subcategory.subCategoryName
+                      .toLowerCase()
+                      .includes(searchText.toLowerCase())
+                  )
+                  .map((subcategory) => (
+                    <Tr key={subcategory._id}>
+                      <Td>{subcategory._id}</Td>
+                      <Td>{subcategory.subCategoryName}</Td>
+                      <Td>
+                        <Image
+                          src={subcategory.image}
+                          alt={subcategory.categoryName}
+                          boxSize="50px"
+                          objectFit="cover"
+                        />
+                      </Td>
+                      <Td>{subcategory.sequence}</Td>
+                      <Td>{subcategory.status}</Td>
+                      <Td>
+                        <Button
+                          size="sm"
+                          mr={2}
+                          leftIcon={<FaEdit />}
+                          onClick={() => handleEdit(subcategory)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          colorScheme="red"
+                          leftIcon={<FaTrash />}
+                          onClick={() => handleDelete(subcategory._id)}
+                        >
+                          Delete
+                        </Button>
+                      </Td>
+                    </Tr>
+                  ))}
               </Tbody>
             </Table>
           )}
@@ -335,41 +397,68 @@ const SubCategory = () => {
       <Modal isOpen={isModalVisible} onClose={handleModalCancel}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{editingSubcategory ? 'Edit Subcategory' : 'Add Subcategory'}</ModalHeader>
+          <ModalHeader>
+            {editingSubcategory ? "Edit Subcategory" : "Add Subcategory"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <VStack spacing={4}>
               <Input
                 placeholder="Subcategory Name"
                 value={newSubcategory.subCategoryName}
-                onChange={(e) => setNewSubcategory({ ...newSubcategory, subCategoryName: e.target.value })}
+                onChange={(e) =>
+                  setNewSubcategory({
+                    ...newSubcategory,
+                    subCategoryName: e.target.value,
+                  })
+                }
               />
               <Select
-              placeholder="Select Category"
-              value={newSubcategory.categoryName}
-              onChange={(e) => setNewSubcategory({ ...newSubcategory, categoryName: e.target.value })}
-            >
-              {categories.map(category => (
-                <option key={category._id} value={category.categoryName}>
-                  {category.categoryName}
-                </option>
-              ))}
-            </Select>
-            
+                placeholder="Select Category"
+                value={newSubcategory.category}
+                onChange={(e) =>
+                  setNewSubcategory({
+                    ...newSubcategory,
+                    category: e.target.value,
+                  })
+                }
+              >
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.categoryName}
+                  </option>
+                ))}
+              </Select>
+
               <Input
                 type="file"
                 accept="image/*"
-                onChange={(e) => setNewSubcategory({ ...newSubcategory, image: e.target.files[0] })}
+                onChange={(e) =>
+                  setNewSubcategory({
+                    ...newSubcategory,
+                    image: e.target.files[0],
+                  })
+                }
               />
               <Input
                 placeholder="Sequence"
                 type="number"
                 value={newSubcategory.sequence}
-                onChange={(e) => setNewSubcategory({ ...newSubcategory, sequence: e.target.value })}
+                onChange={(e) =>
+                  setNewSubcategory({
+                    ...newSubcategory,
+                    sequence: e.target.value,
+                  })
+                }
               />
               <Select
                 value={newSubcategory.status}
-                onChange={(e) => setNewSubcategory({ ...newSubcategory, status: e.target.value })}
+                onChange={(e) =>
+                  setNewSubcategory({
+                    ...newSubcategory,
+                    status: e.target.value,
+                  })
+                }
               >
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
@@ -380,7 +469,9 @@ const SubCategory = () => {
             <Button colorScheme="blue" mr={3} onClick={handleModalOk}>
               Save
             </Button>
-            <Button variant="ghost" onClick={handleModalCancel}>Cancel</Button>
+            <Button variant="ghost" onClick={handleModalCancel}>
+              Cancel
+            </Button>
           </Flex>
         </ModalContent>
       </Modal>

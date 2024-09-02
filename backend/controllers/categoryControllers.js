@@ -8,7 +8,7 @@ export const createCategory = async (req, res) => {
     status: req.body.status,
   });
 
-  try {
+  try { 
     const newCategory = await category.save();
     res.status(201).json(newCategory);
   } catch (error) {
@@ -41,6 +41,7 @@ export const updateCategory = async (req, res) => {
     if (req.body.sequence != null) {
       category.sequence = req.body.sequence;
     }
+
 
     const updatedCategory = await category.save();
     res.json(updatedCategory);

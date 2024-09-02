@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/Context";
 import {
@@ -71,7 +71,7 @@ const Signup = () => {
   };
 
   return (
-    <Flex direction="column" align="center" justify="center" height="100vh">
+    <Flex direction="column" align="center" justify="center" minHeight="100vh">
       <Center flexDirection="column" mb={8}>
         <Image src="/logo.jpg" alt="TableSprint Logo" width="150px" mb={4} />
         <Heading as="h2" size="xl" textAlign="center">

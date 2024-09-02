@@ -1,6 +1,5 @@
-import React from 'react'
 import { ChakraProvider, Box } from '@chakra-ui/react'
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './Context/Context'
 import Signup from './components/Signup'
 import Login from './components/Login'
@@ -19,7 +18,6 @@ function App() {
       <AuthProvider>
           <Box>
             <Routes>
-              {/* <Route path="/" element={<Navigate to="/signup" />} /> */}
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={<Dashboard />} />
